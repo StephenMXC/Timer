@@ -1,0 +1,17 @@
+:root{
+    --size: 240px;
+    --bg: #0047d4;
+    --face: #910000;
+    --accent: #222;
+    --muted: #17c22e;
+    --second: #6e061d;
+}
+
+.counter-body {
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: '4rem';
+
+}
