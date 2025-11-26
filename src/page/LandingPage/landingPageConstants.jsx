@@ -8,5 +8,10 @@ export const PROJECT_LIST = [
     id: 1,
     name: "Clock",
     path: "/clock",
-  }
+  },
+  {
+    id: 2,
+    name: "Weather",
+    path: "/weather",
+  },
 ]

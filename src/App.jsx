@@ -3,6 +3,8 @@ import Counter from './page/Counter/Counter';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Clock from './page/Clock/Clock';
 import LandingPage from './page/LandingPage/LandingPage';
+import Weather from './component/Weather/Weather.jsx';
+
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/counter" element={<Counter />} />
         <Route path="/clock" element={<Clock />} />
+        <Route path="/weather" element={<Weather />} />
         <Route path="/*" element={<h1>404 Page</h1>} />
       </Routes>
     </Router>
