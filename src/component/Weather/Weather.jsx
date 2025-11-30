@@ -1,53 +1,34 @@
 import { useState } from "react";
 import "./Weather.css";
+import { getWeather } from "./getWeather.js";
+import {WEATHER_API_DATA }from "./weatherConstant"
 
 // Weather component to fetch and display weather info.
 export default function Weather() {
-  const [city, setCity] = useState(""); // State for the city input
-  const [data, setData] = useState(null); // State for the fetched weather data
+  const [city, setCity] = useState("jeddah"); // State for the city input
+  const [weatherData, setWeatherData] = useState(WEATHER_API_DATA); // State for the fetched weather weatherData
 
-  // Function to fetch weather data from the API
+  // Fetch weather on first load only
+  // useEffect(() => {
+  //   const apiData = getWeather(city);
+  //   setWeatherData(apiData)
+  // },[]); // empty array → only runs once
 
-  async function getWeather() {
-    // Using a try-catch block for error handling because fetch can fail and throw an error. (e.g., network issues)
-    try {     
-      // here there's an await keyword, which does the following:
-      // It pauses the execution of the getWeather function until the fetch promise resolves. This is because fetch is an 
-      // asynchronous operation that takes time to complete. So our code needs to wait for the response before proceeding.
-      // we cannot use fetch without await inside an async function because fetch returns a "promise" which is 
-      // a placeholder for a future value, and we need to wait for that promise to resolve to get the actual response data. 
-      // It is resolved when the data is fully fetched from the API. When it is fetched, the promise resolves to a Response object.
-      // This is the object that contains the data we requested from the API.
-      const res = await fetch(
-        `http://api.weatherstack.com/current?access_key=${import.meta.env.VITE_WEATHER_API_KEY
-        }&query=${city}`
-      );
-      const json = await res.json(); // this is also asynchronous, so we use await again to wait for the JSON parsing to complete.
+  // // Fetch weather only when user clicks the button
+  const handleWeatherApi = () => {
+  //   const apiData = getWeather(city);
+  //   setWeatherData(apiData)
+  };
 
-      // Structure the data we need from the API response
+  console.log(WEATHER_API_DATA);
 
-      const structured = {
-        city: json.location.name, // taking the city name from the response
-        country: json.location.country, // country name
-        temperature: json.current.temperature, // temperature....
-        description: json.current.weather_descriptions[0], 
-        icon: json.current.weather_icons[0],
-        humidity: json.current.humidity,
-        windSpeed: json.current.wind_speed,
-      }; // the current keyword means we are accessing the current weather data from the API response. the specific 
-         // fields like temperature, weather_descriptions, weather_icons, humidity, and wind_speed are all part of the
-         // current weather data provided by the API.
-
-      setData(structured); // then we set the structured data to our state
-    } // now to catch any errors that might occur during the fetch operation. 
-     catch (err) {
-      console.error("Fetch error:", err); // this just logs the error to the console for debugging purposes. Prevents
-      // the app from crashing and helps identify issues. very basic error handling.
-    } 
-  }
   // finally we return the JSX to render the component.
   return (
+    
     <div className="component-background">
+      <div className="header">
+        <h1 className="header-title"></h1>
+      </div>
       <div className="weather-card">
         <input
           className="weather-input"
@@ -58,18 +39,18 @@ export default function Weather() {
           //  and "value" is the current text inside that input field.
           placeholder="Enter city"
         />
-        <button className="weather-button" onClick={getWeather}>Get weather</button>
+        <button className="weather-button" onClick={handleWeatherApi}>Get weather</button>
 
-        {data && (
+        {weatherData && (
           <div className="weather-info">
             <h2 className="weather-location">
-              {data.city}, {data.country}
+              {weatherData.city}, {weatherData.country}
             </h2>
 
-            <p className="weather-detail">Temperature: {data.temperature}°C</p>
-            <p className="weather-detail">Condition: {data.description}</p>
-            <p className="weather-detail">Humidity: {data.humidity}%</p>
-            <p className="weather-detail">Wind: {data.windSpeed} km/h</p> 
+            <p className="weather-detail">Temperature: {weatherData.temperature}°C</p>
+            <p className="weather-detail">Condition: {weatherData.description}</p>
+            <p className="weather-detail">Humidity: {weatherData.humidity}%</p>
+            <p className="weather-detail">Wind: {weatherData.windSpeed} km/h</p>
           </div>
         )}
       </div>
@@ -77,3 +58,13 @@ export default function Weather() {
 
   );
 }
+// TODO:
+// 1. use "https://stitch.withgoogle.com/projects/2864440562293881545?pli=1"
+// as reference to the weather app design.
+// 2. Add a header and a footer.
+// 3. use Cards for the body parts.
+// 4. and the footer parts.
+// 5. if you must, use icons from "https://react-icons.github.io/react-icons/"
+// 6. use colors appropriately.
+// 7. Make it conform to the json data from the weather api.
+// 
