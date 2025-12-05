@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./Weather.css";
 import { getWeather } from "./getWeather.js";
-import {WEATHER_API_DATA }from "./weatherConstant"
+import { WEATHER_API_DATA } from "./weatherConstant"
+import { FaSearch } from "react-icons/fa";
 
 // Weather component to fetch and display weather info.
 export default function Weather() {
@@ -12,50 +13,99 @@ export default function Weather() {
   // useEffect(() => {
   //   const apiData = getWeather(city);
   //   setWeatherData(apiData)
-  // },[]); // empty array → only runs once
+  // }, []); // empty array → only runs once
 
   // // Fetch weather only when user clicks the button
-  const handleWeatherApi = () => {
-  //   const apiData = getWeather(city);
-  //   setWeatherData(apiData)
+  const handleWeatherApi = async () => {
+    if (!city) {
+      alert("Please enter a city name.");
+      return;
+    }
+    const apiData = await getWeather(city);// Here the getWeather function is called with the current city as an argument. So all the apiData holds is: 
+    // a promise that will eventually resolve to the structured weather data object once the asynchronous operation is complete.
+    if (apiData) setWeatherData(apiData)// Then we set the weatherData state with the result.
   };
 
   console.log(WEATHER_API_DATA);
 
   // finally we return the JSX to render the component.
   return (
-    
-    <div className="component-background">
-      <div className="header">
-        <h1 className="header-title"></h1>
-      </div>
-      <div className="weather-card">
-        <input
-          className="weather-input"
-          value={city}
-          onChange={(e) => setCity(e.target.value)} // input field to enter city name. setCity takes as input "e.target.value" 
-          // which is the current value of the input field. "e" is the event object that is automatically passed to the onChange handler.
-          // "target" refers to the element that triggered the event (in this case, the input field),
-          //  and "value" is the current text inside that input field.
-          placeholder="Enter city"
-        />
-        <button className="weather-button" onClick={handleWeatherApi}>Get weather</button>
+    <div className="component-background"> {/* Overall background for the component. It's the parent element, as needed by jsx. */}
+      <header className="header">
+        <h1 className="header-title">Cyberweather</h1>
+        <div className="header-controls">
+          <input
+            className="weather-input"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Enter city"
+          />
+          <button className="weather-button" onClick={handleWeatherApi}>
+            <FaSearch size={16} color="#110186" />
+            <p>Get weather</p>
+          </button>
+        </div>
+      </header>
 
-        {weatherData && (
-          <div className="weather-info">
-            <h2 className="weather-location">
-              {weatherData.city}, {weatherData.country}
-            </h2>
+      <main className="body">
+        <div className="weather-grid">
 
-            <p className="weather-detail">Temperature: {weatherData.temperature}°C</p>
-            <p className="weather-detail">Condition: {weatherData.description}</p>
-            <p className="weather-detail">Humidity: {weatherData.humidity}%</p>
-            <p className="weather-detail">Wind: {weatherData.windSpeed} km/h</p>
+          <div className="temperature-card">
+            {weatherData && (
+              <div className="weather-info">
+                <h2 className="weather-location">
+                  {weatherData.city}, {weatherData.country}
+                </h2>
+                <h2 className="weather-detail">Temperature: {weatherData.temperature}°C</h2>
+
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </div>
 
+          <div className="humidity-card">
+            {weatherData && (
+              <div className="weather-info">
+                {/* <h2 className="weather-location">
+                {weatherData.city}, {weatherData.country}
+              </h2> */}
+
+                <h2 className="weather-location">Humidity: {weatherData.humidity}%</h2>
+                {/* <p className="weather-detail">Wind: {weatherData.windSpeed} km/h</p> */}
+              </div>
+            )}
+          </div>
+
+          <div className="wind-card">
+            {weatherData && (
+              <div className="weather-info">
+                {/* <h2 className="weather-location">
+                {weatherData.city}, {weatherData.country}
+              </h2> */}
+
+                <h2 className="weather-location">Wind: {weatherData.windSpeed} km/h</h2>
+              </div>
+            )}
+          </div>
+
+          <div className="conditions-card">
+            {weatherData && (
+              <div className="weather-info">
+                {/* <h2 className="weather-location">
+                {weatherData.city}, {weatherData.country}
+              </h2> */}
+                <h2 className="weather-detail">Condition: {weatherData.description}</h2>
+
+              </div>
+            )}
+          </div>
+
+        </div>
+      </main>
+
+      <footer className="footer">
+        <p>© 2025 Cyberweather. All rights reserved.</p>
+      </footer>
+    </div>
   );
 }
 // TODO:
