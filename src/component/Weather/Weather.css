@@ -59,13 +59,29 @@
 
 .weather-grid {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 20px;
-  justify-content: center;
   width: 100%;
-  box-sizing: border-box;
 }
 
+.top-row {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start; /*meant to prevent stretching*/
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bottom-row {
+  width: 480px;
+  max-width: 600px;
+  margin: 0 auto;
+}
 .body {
   display: flex;
   flex-direction: column;
@@ -111,9 +127,8 @@
   text-align: center;
   box-sizing: border-box;
 }
+
 .conditions-card {
-  width: 250px;
-  max-width: 400px;
   padding: 20px;
   border-radius: 25px;
   background-color: #546ff4;
