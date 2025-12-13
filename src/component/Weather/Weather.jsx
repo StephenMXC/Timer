@@ -3,6 +3,8 @@ import "./Weather.css";
 import { getWeather } from "./getWeather.js";
 import { WEATHER_API_DATA } from "./weatherConstant"
 import { FaSearch } from "react-icons/fa";
+import { GiFog } from "react-icons/gi";
+import { FaTemperatureHigh } from "react-icons/fa";
 
 // Weather component to fetch and display weather info.
 export default function Weather() {
@@ -15,6 +17,12 @@ export default function Weather() {
   //   setWeatherData(apiData)
   // }, []); // empty array → only runs once
 
+  // Get current date and time in the specified city's timezone
+  const getCityTime = (timezoneOffset) => {
+    const utc = Date.now() + new Date().getTimezoneOffset() * 60000;
+    return new Date(utc + timezoneOffset * 1000);
+  };
+
   // // Fetch weather only when user clicks the button
   const handleWeatherApi = async () => {
     if (!city) {
@@ -22,8 +30,7 @@ export default function Weather() {
       return;
     } //the following is embedded in a try-catch block to handle potential errors during the async operation.
     try {
-      const apiData = await getWeather(city);// Here the getWeather function is called with the current city as an argument. So all the apiData holds is: 
-      // a promise that will eventually resolve to the structured weather data object once the asynchronous operation is complete.
+      const apiData = await getWeather(city);// getWeather(city) holds a promise, which is resolved and held in apiData.
       if (apiData) setWeatherData(apiData); // Then we set the weatherData state with the result.
     } catch (error) {
       alert("Failed to fetch the weather.");
@@ -36,7 +43,7 @@ export default function Weather() {
   return (
     <div className="component-background"> {/* Overall background for the component. It's the parent element, as needed by jsx. */}
       <header className="header">
-        <h1 className="header-title">Cyberweather</h1>
+        <h1 className="header-title"><GiFog size={28} color="#ffff00" /> Cyberweather</h1>
         <div className="header-controls">
           <input
             className="weather-input"
@@ -45,8 +52,8 @@ export default function Weather() {
             placeholder="Enter city"
           />
           <button className="weather-button" onClick={handleWeatherApi}>
-            <FaSearch size={16} color="#110186" />
-            <p>Get weather</p>
+            <FaSearch size={16} color="#110186ff" />
+            <p>Get Weather</p>
           </button>
         </div>
       </header>
@@ -62,31 +69,36 @@ export default function Weather() {
                   <h2 className="weather-location">
                     {weatherData.city}, {weatherData.country}
                   </h2>
-                  <h2 className="weather-detail">Temperature: {weatherData.temperature}°C</h2>
+                  <h2 className="time">
+                    {weatherData.time}
+                  </h2>
+
+                  <h2 className="weather-temp"> <FaTemperatureHigh color= "#03aad7ed"/> {weatherData.temperature}°C</h2>
 
                 </div>
               )}
             </div>
-          </div>
 
-          <div className="right-column">
-            <div className="humidity-card">
-              {weatherData && (
-                <div className="weather-info">
+            <div className="right-column">
+              <div className="humidity-card">
+                {weatherData && (
+                  <div className="weather-info">
 
-                  <h2 className="weather-location">Humidity: {weatherData.humidity}%</h2>
-                </div>
-              )}
+                    <h2 className="weather-location">Humidity: {weatherData.humidity}%</h2>
+                  </div>
+                )}
+              </div>
+
+              <div className="feelslike-card">
+                {weatherData && (
+                  <div className="weather-info">
+
+                    <h2 className="weather-location">Feels like {weatherData.feelslike}°C</h2>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="wind-card">
-              {weatherData && (
-                <div className="weather-info">
-
-                  <h2 className="weather-location">Wind: {weatherData.windSpeed} km/h</h2>
-                </div>
-              )}
-            </div>
           </div>
 
           <div className="bottom-row">

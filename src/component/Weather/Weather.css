@@ -1,4 +1,9 @@
-/* ===== Overall page layout ===== */
+/* Component CSS are imported in the component. It's bundled and applied when this module loads. (styles are global unless css modules are used, which is what we do here).
+The precedence is as follows: 
+1. index.css (loaded once at app start)
+2. component CSS (loaded when component is loaded, which is when you navigate to that component on the browser).
+3. inline styles (applied when component renders, highest precedence).
+*/
 .component-background {
   min-height: 100vh;
   display: flex;
@@ -24,7 +29,7 @@
   margin: 0;
   font-size: 2rem;
   font-family: "Nabla", sans-serif;
-  color: yellow;
+  color: rgb(255, 255, 0);
   text-align: center;
 }
 
@@ -67,14 +72,18 @@
 .top-row {
   display: flex;
   gap: 20px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start; /*meant to prevent stretching*/
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
 }
 
 .right-column {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: flex-end; /* keep the stacked cards flush to the right */
 }
 
 .bottom-row {
@@ -100,10 +109,28 @@
   max-width: 400px;
   padding: 20px;
   border-radius: 25px;
-  background-color: #546ff4;
+  background-color: #061f9d6f;
   box-shadow: 0 4px 12px rgb(208, 4, 4);
   text-align: center;
   box-sizing: border-box;
+}
+
+/* Make temperature card text larger and more prominent */
+.temperature-card .weather-location {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.temperature-card .weather-detail {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+
+
+.time {
+  font-size: medium;
+  color: #b2b2b2;
 }
 
 .humidity-card {
@@ -111,18 +138,18 @@
   max-width: 400px;
   padding: 20px;
   border-radius: 25px;
-  background-color: #546ff4;
+  background-color: #061f9d6f;
   box-shadow: 0 4px 12px rgb(0, 191, 255);
   text-align: center;
   box-sizing: border-box;
 }
 
-.wind-card {
+.feelslike-card {
   width: 250px;
   max-width: 400px;
   padding: 20px;
   border-radius: 25px;
-  background-color: #546ff4;
+  background-color: #061f9d6f;
   box-shadow: 0 4px 12px rgb(50, 205, 50);
   text-align: center;
   box-sizing: border-box;
@@ -131,7 +158,7 @@
 .conditions-card {
   padding: 20px;
   border-radius: 25px;
-  background-color: #546ff4;
+  background-color: #061f9d6f;
   box-shadow: 0 4px 12px rgb(255, 165, 0);
   text-align: center;
   box-sizing: border-box;
@@ -142,13 +169,18 @@
 .weather-location {
   margin-bottom: 10px;
   font-size: 1.2rem;
-  color: #000000;
+  color: #ffffff;
 }
 
 .weather-detail {
   margin: 5px 0;
   font-size: 1rem;
-  color: #000000;
+  color: #ffffff;
+}
+.weather-temp {
+  margin: 5px 0;
+  font-size: 52px;
+  color: #017797;
 }
 
 
@@ -177,5 +209,21 @@
 
   .weather-detail {
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .top-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .right-column {
+    align-items: center;
+  }
+
+  .bottom-row {
+    width: 100%;
+    max-width: 480px;
   }
 }

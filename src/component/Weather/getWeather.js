@@ -28,6 +28,8 @@
         icon: json.current.weather_icons[0],
         humidity: json.current.humidity,
         windSpeed: json.current.wind_speed,
+        time: json.location.localtime,
+        feelslike: json.current.feelslike,
       }; // the current keyword means we are accessing the current weather data from the API response. the specific 
          // fields like temperature, weather_descriptions, weather_icons, humidity, and wind_speed are all part of the
          // current weather data provided by the API.
